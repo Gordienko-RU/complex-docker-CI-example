@@ -1,0 +1,46 @@
+version: '2'
+services:
+  postgres:
+    image: 'postgres:latest'
+  redis:
+    image: 'redis:latest'
+  server:
+    # say to compose that first we need to build image
+    build:
+      # for custom dockerfile name
+      dockerfile: Dockerfile.dev
+      # point the folder with config file
+      context: ./server
+
+    # bind local files to container(for development)
+    volumes:
+      # exclude node_modules from beeing observed
+      - /home/app/server/node_modules
+      # include files that we wanna to observe
+      - ./server:/home/app/server
+
+    #set environment variable for current container
+    environment:
+      - REDIS_HOST=redis,
+      - REDIS_PORT=6379,
+      - PGUSER=postgres,
+      - PGHOST=postgres,
+      - PGDATABASE=postgres,
+      - PGPASSWORD=postgres_password,
+      - PGPORT=5432
+  
+  client:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./client
+    volumes:
+      - /home/app/client/node_modules
+      - ./client:/home/app/client
+
+  worker:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./worker
+    volumes:
+      - /home/app/worker/node_modules
+      - ./worker:/home/app/worker
