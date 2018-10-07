@@ -4,7 +4,14 @@ services:
     image: 'postgres:latest'
   redis:
     image: 'redis:latest'
-  server:
+  nginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      - '8002:80'
+  api:
     # say to compose that first we need to build image
     build:
       # for custom dockerfile name
@@ -44,3 +51,6 @@ services:
     volumes:
       - /home/app/worker/node_modules
       - ./worker:/home/app/worker
+    environment:
+      - REDIS_HOST=redis,
+      - REDIS_PORT=6379
