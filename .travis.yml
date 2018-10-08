@@ -10,16 +10,16 @@ script:
 
 after_success:
   # build all parts of app
-  - docker build -t multitrack-client ./client
-  - docker build -t multitrack-nginx ./nginx
-  - docker build -t multitrack-server ./server
-  - docker build -t multitrack-worker ./worker
+  - docker build -t romangordienko/multitrack-client ./client
+  - docker build -t romangordienko/multitrack-nginx ./nginx
+  - docker build -t romangordienko/multitrack-server ./server
+  - docker build -t romangordienko/multitrack-worker ./worker
 
   # log into docker cli
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   
   # put builded images to docker hub
-  - docker push multitrack-client
-  - docker push multitrack-nginx
-  - docker push multitrack-server
-  - docker push multitrack-worker
+  - docker push romangordienko/multitrack-client
+  - docker push romangordienko/multitrack-nginx
+  - docker push romangordienko/multitrack-server
+  - docker push romangordienko/multitrack-worker
