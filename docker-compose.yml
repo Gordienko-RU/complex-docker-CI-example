@@ -10,7 +10,7 @@ services:
       dockerfile: Dockerfile.dev
       context: ./nginx
     ports:
-      - '8002:80'
+      - '3001:80'
   api:
     # say to compose that first we need to build image
     build:
@@ -28,12 +28,12 @@ services:
 
     #set environment variable for current container
     environment:
-      - REDIS_HOST=redis,
-      - REDIS_PORT=6379,
-      - PGUSER=postgres,
-      - PGHOST=postgres,
-      - PGDATABASE=postgres,
-      - PGPASSWORD=postgres_password,
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - PGUSER=postgres
+      - PGHOST=postgres
+      - PGDATABASE=postgres
+      - PGPASSWORD=postgres_password
       - PGPORT=5432
   
   client:
@@ -52,5 +52,5 @@ services:
       - /home/app/worker/node_modules
       - ./worker:/home/app/worker
     environment:
-      - REDIS_HOST=redis,
+      - REDIS_HOST=redis
       - REDIS_PORT=6379
